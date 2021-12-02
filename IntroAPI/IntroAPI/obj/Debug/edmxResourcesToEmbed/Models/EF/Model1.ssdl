@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="class17Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'class17.dbo.customers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="customers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="20" />
+    <Property Name="phone" Type="varchar" MaxLength="15" />
+    <Property Name="password" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="orderdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="product_id" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="price" Type="int" />
+  </EntityType>
+  <EntityType Name="orders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="customer_id" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="price" Type="varchar" MaxLength="10" />
+    <Property Name="status" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Price" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_orderdetails_products">
+    <End Role="products" Type="Self.products" Multiplicity="1" />
+    <End Role="orderdetails" Type="Self.orderdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="orderdetails">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_products_products">
+    <End Role="products" Type="Self.products" Multiplicity="1" />
+    <End Role="products1" Type="Self.products" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="products1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="class17ModelStoreContainer">
+    <EntitySet Name="orderdetails" EntityType="Self.orderdetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="customers" EntityType="Self.customers" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[customers].[id] AS [id], 
+[customers].[name] AS [name], 
+[customers].[phone] AS [phone], 
+[customers].[password] AS [password]
+FROM [dbo].[customers] AS [customers]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_orderdetails_products" Association="Self.FK_orderdetails_products">
+      <End Role="products" EntitySet="products" />
+      <End Role="orderdetails" EntitySet="orderdetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_products_products" Association="Self.FK_products_products">
+      <End Role="products" EntitySet="products" />
+      <End Role="products1" EntitySet="products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

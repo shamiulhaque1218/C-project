@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="class17Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="orderdetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Int32" />
+    <NavigationProperty Name="order" Relationship="Self.FK_orders_orderdetails" FromRole="orderdetails" ToRole="orders" />
+    <NavigationProperty Name="product" Relationship="class17Model.FK_orderdetails_products" FromRole="orderdetail" ToRole="product" />
+  </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="customer_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="orderdetail" Relationship="Self.FK_orders_orderdetails" FromRole="orders" ToRole="orderdetails" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Price" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="orderdetails" Relationship="class17Model.FK_orderdetails_products" FromRole="product" ToRole="orderdetail" />
+    <NavigationProperty Name="products1" Relationship="class17Model.FK_products_products" FromRole="product" ToRole="product1" />
+    <NavigationProperty Name="product1" Relationship="class17Model.FK_products_products" FromRole="product1" ToRole="product" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_orders_orderdetails">
+    <End Role="orderdetails" Type="Self.orderdetail" Multiplicity="1" />
+    <End Role="orders" Type="Self.order" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="orderdetails">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="class17Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="orderdetails" EntityType="Self.orderdetail" />
+    <EntitySet Name="orders" EntityType="Self.order" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="customers" EntityType="Self.customer" />
+    <AssociationSet Name="FK_orders_orderdetails" Association="Self.FK_orders_orderdetails">
+      <End Role="orderdetails" EntitySet="orderdetails" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orderdetails_products" Association="class17Model.FK_orderdetails_products">
+      <End Role="product" EntitySet="products" />
+      <End Role="orderdetail" EntitySet="orderdetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_products_products" Association="class17Model.FK_products_products">
+      <End Role="product" EntitySet="products" />
+      <End Role="product1" EntitySet="products" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_orderdetails_products">
+    <End Type="class17Model.product" Role="product" Multiplicity="1" />
+    <End Type="class17Model.orderdetail" Role="orderdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="orderdetail">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_products_products">
+    <End Type="class17Model.product" Role="product" Multiplicity="1" />
+    <End Type="class17Model.product" Role="product1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="product1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
