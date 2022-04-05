@@ -1,0 +1,2 @@
+D:\Asp.Net Class Work Final\Resturant\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\Asp.Net Class Work Final\Resturant\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache

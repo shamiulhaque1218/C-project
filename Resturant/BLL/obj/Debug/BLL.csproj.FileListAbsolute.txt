@@ -1,0 +1,2 @@
+D:\Asp.Net Class Work Final\Resturant\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+D:\Asp.Net Class Work Final\Resturant\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
